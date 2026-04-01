@@ -20,7 +20,8 @@ venv/
 # Vector DB / embeddings
 qdrant_storage/
 
-
+data/memory_store/
+data/tool_mem/
 # Temporary / test outputs
 Tests/Logs/
 Tran_Test/neural/logs/
