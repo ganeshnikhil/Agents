@@ -1,0 +1,12 @@
+{
+  "weather_report": 0.1,
+  "search_youtube": 0.1,
+  "news_headlines": 0.1,
+  "yt_download": 0.1,
+  "send_to_ai": 0.1,
+  "app_runner": 0.891,
+  "private_mode": 0.1,
+  "make_a_call": 0.1,
+  "send_email": 0.1,
+  "duckgo_search": 0.1
+}
