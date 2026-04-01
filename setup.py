@@ -183,16 +183,30 @@ def setup_ollama():
 
 
 # ---------------- Model Setup ----------------
-
+import os
 from transformers import AutoModel, AutoTokenizer
+from huggingface_hub import snapshot_download
 
 MODEL_NAME = "cythonboy/multi-task-emotion-model"
 MODEL_PATH = "data/Models/multi_task_model_with_emotion"
 
 
+def model_exists():
+    required_files = [
+        "model.safetensors",
+        "tokenizer.json"
+    ]
+
+    return all(
+        os.path.exists(os.path.join(MODEL_PATH, f))
+        for f in required_files
+    )
+
+
 def setup_model():
     """Download model only if not present locally."""
-    if os.path.exists(MODEL_PATH) and os.listdir(MODEL_PATH):
+
+    if model_exists():
         print("✅ Model already exists locally. Skipping download.")
         return
 
@@ -200,19 +214,24 @@ def setup_model():
 
     os.makedirs(MODEL_PATH, exist_ok=True)
 
-    AutoTokenizer.from_pretrained(
-        MODEL_NAME,
-        cache_dir=MODEL_PATH
+    # ✅ Download EXACT structure into folder
+    snapshot_download(
+        repo_id=MODEL_NAME,
+        local_dir=MODEL_PATH,
+        local_dir_use_symlinks=False
     )
 
-    AutoModel.from_pretrained(
-        MODEL_NAME,
-        cache_dir=MODEL_PATH
-    )
+    print("✅ Model downloaded")
 
-    print("✅ Model downloaded and cached")
-    
-    
+
+
+def load_model():
+    """Load model safely from local path"""
+    tokenizer = AutoTokenizer.from_pretrained(MODEL_PATH)
+    model = AutoModel.from_pretrained(MODEL_PATH)
+    return tokenizer, model
+
+
 # ---------------- Bootstrap ----------------
 
 def bootstrap():
