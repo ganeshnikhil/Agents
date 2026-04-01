@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Logs
+*.log
+logs/
+
+# Environment
+.env
+venv/
+.env.*
+.venv/
+# OS
+.DS_Store
+
+
+
+# Vector DB / embeddings
+qdrant_storage/
+
+
+# Temporary / test outputs
+Tests/Logs/
+Tran_Test/neural/logs/
+*.out
+
+# IDE
+.vscode/
+.idea/
+
+# Docker temp
+*.pid
+
+# Misc
+*.sqlite3
+
+
+# ❌ Ignore all models
+data/Models/
+
+# ❌ Ignore model files globally
+*.safetensors
+*.bin
+*.pt
