@@ -181,6 +181,38 @@ def setup_ollama():
     else:
         print("✅ Ollama CLI is functional and ready")
 
+
+# ---------------- Model Setup ----------------
+
+from transformers import AutoModel, AutoTokenizer
+
+MODEL_NAME = "cythonboy/multi-task-emotion-model"
+MODEL_PATH = "data/Models/multi_task_model_with_emotion"
+
+
+def setup_model():
+    """Download model only if not present locally."""
+    if os.path.exists(MODEL_PATH) and os.listdir(MODEL_PATH):
+        print("✅ Model already exists locally. Skipping download.")
+        return
+
+    print("⬇️ Downloading model from Hugging Face...")
+
+    os.makedirs(MODEL_PATH, exist_ok=True)
+
+    AutoTokenizer.from_pretrained(
+        MODEL_NAME,
+        cache_dir=MODEL_PATH
+    )
+
+    AutoModel.from_pretrained(
+        MODEL_NAME,
+        cache_dir=MODEL_PATH
+    )
+
+    print("✅ Model downloaded and cached")
+    
+    
 # ---------------- Bootstrap ----------------
 
 def bootstrap():
@@ -188,6 +220,9 @@ def bootstrap():
         start_docker()
 
     start_qdrant()
-    start_fastapi()
-    setup_ollama()  # ✅ Install/check Ollama
 
+    setup_model()   # 👈 ADD HERE (before FastAPI)
+
+    start_fastapi()
+
+    setup_ollama()
